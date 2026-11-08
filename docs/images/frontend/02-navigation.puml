@@ -1,0 +1,45 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam dpi 200
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam ArrowColor #8C8C8C
+skinparam nodesep 25
+skinparam ranksep 45
+skinparam rectangle {
+  BackgroundColor #FFFFFF
+  BorderColor #BFBFBF
+}
+
+title 图2  页面导航结构图
+
+rectangle "启动页 / 登录\n/api/auth/login" as LOGIN #FFF6F0
+
+rectangle "移动端 UserLayout（底部四 Tab）" as USER {
+  rectangle "首页 · 智能教练对话\n/" as P1 #FFE3D5
+  rectangle "训练计划\n/plan" as P2 #FFE3D5
+  rectangle "动作纠错\n/correction" as P3 #FFE3D5
+  rectangle "我的\n/profile" as P4 #FFE3D5
+}
+
+rectangle "后台 AdminLayout（侧边栏）" as ADMIN {
+  rectangle "系统概览\n/admin" as A1 #FFE3D5
+  rectangle "知识库管理\n/admin/knowledge" as A2 #FFE3D5
+  rectangle "用户管理\n/admin/users" as A3 #FFE3D5
+  rectangle "反馈管理\n/admin/feedbacks" as A4 #FFE3D5
+}
+
+LOGIN --> P1 : 登录成功\n(role=user)
+LOGIN --> A1 : 登录成功\n(role=admin)
+
+P1 --> P2 : 计划卡片"查看完整计划"
+P1 --> P3 : 纠错卡片"查看详情" / 拍照按钮
+P2 --> P3 : 动作条目"看要领"
+P3 --> P1 : "继续问教练"
+P4 --> P2 : 本周训练统计
+P4 --> LOGIN : 退出登录
+
+A2 --> A1 : 面包屑返回
+A3 --> A1
+A4 --> A1
+@enduml

@@ -1,0 +1,103 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam dpi 200
+skinparam defaultFontSize 13
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam ArrowColor #8C8C8C
+skinparam nodesep 18
+skinparam ranksep 55
+skinparam packagePadding 12
+left to right direction
+
+title FitPulse 前端组件结构图（分层视图）
+
+skinparam component {
+  BackgroundColor #FFFFFF
+  BorderColor #BFBFBF
+}
+
+actor "学生用户" as U
+actor "管理员" as A
+
+package "布局层" #FAFAFA {
+  [UserLayout] as UL
+  [AdminLayout] as AL
+}
+
+package "页面层" #FFF6F0 {
+  [ChatView] as CV
+  [PlanView] as PV
+  [CorrectionView] as COV
+  [ProfileView] as PRV
+  [后台三页] as ADMIN
+}
+
+package "业务组件层" #FFFFFF {
+  [MessageList\nTextBubble / CardBubble\nImageBubble / ToolCallChip] as ML
+  [ChatInput\nQuickActions] as CI
+  [WeekPicker / PlanDayCard\nPlanExerciseItem / ProgressRing] as PLAN
+  [UploadArea / CorrectionResult\nIssueCard / CorrectionHistory] as CORR
+  [ProfileForm / StatsPanel\nDataTable / StatCard / KnowledgeEditor] as MISC
+}
+
+package "通用组件层" #F7F7F7 {
+  [AppButton / AppCard / Sheet] as COMMON
+  [EmptyState / Skeleton\nErrorBanner / Toast] as STATE
+}
+
+package "服务与状态层" #F2F7FF {
+  [useChatStore / usePlanStore] as STORE
+  [TanStack Query] as RQ
+  [apiClient] as API
+  [sseClient] as SSE
+  [authStore] as AUTH
+}
+
+cloud "API 网关\nNginx + JWT" as GW
+rectangle "FastAPI 后端" as BE
+
+U --> UL
+A --> AL
+together {
+  UL --> CV
+  UL --> PV
+  UL --> COV
+  UL --> PRV
+}
+AL --> ADMIN
+
+CV --> ML
+CV --> CI
+PV --> PLAN
+COV --> CORR
+PRV --> MISC
+ADMIN --> MISC
+
+ML --> COMMON
+CI --> COMMON
+PLAN --> COMMON
+CORR --> COMMON
+MISC --> COMMON
+ML --> STATE
+CORR --> STATE
+
+CV --> STORE
+PV --> STORE
+COV --> RQ
+PRV --> RQ
+ADMIN --> RQ
+
+STORE --> SSE
+STORE --> API
+RQ --> API
+API --> AUTH
+API --> GW
+SSE --> GW
+GW --> BE
+
+skinparam component<<page>> {
+  BackgroundColor #FFE3D5
+  BorderColor #FF6B35
+}
+@enduml
