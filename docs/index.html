@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitPulse 原型展示 · 健身动作矫正 &amp; 居家锻炼智能 Agent</title>
+<meta name="description" content="FitPulse 团队项目原型展示：对话、训练计划、动作纠错、个人中心与后台管理共 7 个页面。">
+<style>
+  :root{
+    --brand:#FF6B35;
+    --brand-dark:#E5561F;
+    --brand-soft:#FFF0E8;
+    --ink:#1F1F1F;
+    --ink-2:#5C5C5C;
+    --ink-3:#8A8A8A;
+    --line:#ECECEC;
+    --bg:#FBFAF8;
+    --surface:#FFFFFF;
+    --radius:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- 顶栏 ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(251,250,248,.82);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:.2px;}
+  .logo .mark{
+    width:30px;height:30px;border-radius:9px;
+    background:var(--brand);color:#fff;
+    display:grid;place-items:center;font-size:15px;font-weight:800;
+    box-shadow:0 4px 12px rgba(255,107,53,.30);
+  }
+  .logo small{font-weight:500;color:var(--ink-3);font-size:12px;margin-left:2px;}
+  .nav-links{display:flex;gap:26px;font-size:14px;color:var(--ink-2);}
+  .nav-links a:hover{color:var(--brand);}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 20px;border-radius:999px;
+    background:var(--brand);color:#fff;font-size:14px;font-weight:600;
+    box-shadow:0 6px 18px rgba(255,107,53,.28);
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn:hover{background:var(--brand-dark);transform:translateY(-1px);box-shadow:0 10px 24px rgba(255,107,53,.34);}
+  .btn.ghost{
+    background:#fff;color:var(--ink);border:1px solid var(--line);
+    box-shadow:none;
+  }
+  .btn.ghost:hover{border-color:#D6D6D6;background:#fff;}
+
+  /* ---------- Hero ---------- */
+  .hero{padding-block:76px 56px;position:relative;overflow:hidden;}
+  .hero::before{
+    content:"";position:absolute;right:-120px;top:-140px;width:520px;height:520px;
+    background:radial-gradient(circle at 30% 30%, rgba(255,107,53,.16), rgba(255,107,53,0) 62%);
+    border-radius:50%;pointer-events:none;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12.5px;color:var(--brand);font-weight:600;
+    background:var(--brand-soft);border-radius:999px;padding:6px 14px;margin-bottom:22px;
+  }
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--brand);}
+  h1{
+    font-size:clamp(32px,5vw,54px);line-height:1.15;letter-spacing:-.5px;
+    font-weight:800;max-width:760px;
+  }
+  h1 em{font-style:normal;color:var(--brand);}
+  .lede{margin-top:20px;font-size:16.5px;color:var(--ink-2);max-width:620px;}
+  .hero-actions{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap;}
+  .meta{display:flex;gap:28px;margin-top:44px;flex-wrap:wrap;}
+  .meta div{font-size:13px;color:var(--ink-3);}
+  .meta strong{display:block;font-size:22px;color:var(--ink);font-weight:700;letter-spacing:-.3px;}
+
+  /* ---------- 区块标题 ---------- */
+  section{padding-block:64px;}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:32px;flex-wrap:wrap;}
+  h2{font-size:26px;letter-spacing:-.4px;font-weight:750;}
+  .sec-head p{color:var(--ink-3);font-size:14px;max-width:460px;}
+
+  /* ---------- 页面卡片 ---------- */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column;
+    transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(31,31,31,.08);border-color:#E0E0E0;}
+  .thumb{
+    aspect-ratio:4/3;background:#F2F1EF;overflow:hidden;position:relative;
+    display:grid;place-items:center;
+  }
+  .thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .thumb.placeholder{
+    background:
+      radial-gradient(circle at 70% 20%, rgba(255,107,53,.20), transparent 55%),
+      linear-gradient(135deg,#F6F4F1,#EDEAE5);
+  }
+  .thumb.placeholder span{font-size:13px;color:var(--ink-3);letter-spacing:.4px;}
+  .card-body{padding:18px 20px 22px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .tagline{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-3);letter-spacing:.3px;}
+  .num{
+    font-variant-numeric:tabular-nums;font-weight:700;color:var(--brand);
+    font-size:12px;background:var(--brand-soft);border-radius:6px;padding:1px 7px;
+  }
+  .card h3{font-size:17px;font-weight:650;letter-spacing:-.2px;}
+  .card p{font-size:13.5px;color:var(--ink-2);line-height:1.7;}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:12px;}
+  .chip{font-size:11.5px;color:var(--ink-2);background:#F5F4F2;border-radius:6px;padding:3px 9px;}
+
+  /* ---------- 流程 ---------- */
+  .flows{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .flow{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;}
+  .flow h4{font-size:15px;margin-bottom:6px;display:flex;align-items:center;gap:9px;}
+  .flow h4 i{
+    width:26px;height:26px;border-radius:8px;background:var(--brand-soft);color:var(--brand);
+    display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:700;
+  }
+  .flow ol{margin:14px 0 0 0;list-style:none;counter-reset:s;}
+  .flow li{
+    counter-increment:s;position:relative;padding-left:26px;font-size:13.5px;color:var(--ink-2);
+    padding-bottom:10px;
+  }
+  .flow li::before{
+    content:counter(s);position:absolute;left:0;top:1px;
+    width:17px;height:17px;border-radius:50%;background:#F4F3F1;color:var(--ink-3);
+    font-size:10.5px;display:grid;place-items:center;font-weight:600;
+  }
+
+  /* ---------- 规范 ---------- */
+  .tokens{display:flex;gap:14px;flex-wrap:wrap;}
+  .swatch{width:104px;}
+  .swatch .box{height:64px;border-radius:12px;border:1px solid rgba(0,0,0,.04);}
+  .swatch span{display:block;font-size:11.5px;color:var(--ink-3);margin-top:8px;}
+  .swatch b{display:block;font-size:12.5px;font-weight:600;}
+
+  /* ---------- 文档 ---------- */
+  .docs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .doc{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;font-size:14px;transition:border-color .2s ease, transform .2s ease;
+  }
+  .doc:hover{border-color:var(--brand);transform:translateY(-2px);}
+  .doc span{color:var(--ink-3);font-size:16px;}
+
+  footer{border-top:1px solid var(--line);padding:36px 0 54px;color:var(--ink-3);font-size:13px;}
+  footer .row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center;}
+  footer a{color:var(--ink-2);}
+  footer a:hover{color:var(--brand);}
+
+  @media (max-width:900px){
+    .grid,.flows,.docs{grid-template-columns:1fr 1fr;}
+    .nav-links{display:none;}
+  }
+  @media (max-width:620px){
+    .grid,.flows,.docs{grid-template-columns:1fr;}
+    .hero{padding-block:52px 36px;}
+    section{padding-block:44px;}
+    .meta{gap:20px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="./">
+      <span class="mark">FP</span>
+      FitPulse<small>原型展示</small>
+    </a>
+    <nav class="nav-links">
+      <a href="#pages">页面</a>
+      <a href="#flows">主流程</a>
+      <a href="#spec">设计规范</a>
+      <a href="#docs">文档</a>
+    </nav>
+    <a class="btn" href="%E5%8E%9F%E5%9E%8B/FitPulse_%E5%8E%9F%E5%9E%8B.html" target="_blank" rel="noopener">
+      打开可交互原型
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div class="eyebrow"><span class="dot"></span>2026 秋 软件工程实践 · 团队项目</div>
+    <h1>把专业教练，<br>装进每一个学生的<em>手机</em>里。</h1>
+    <p class="lede">
+      FitPulse 是一款面向学生健身新手的「随身智能教练」：查动作要领、生成周训练计划、上传照片做动作纠错，
+      由 Claude 驱动的领域智能体完成理解、检索与反馈。这里展示用户端与后台共 7 个页面的高保真原型。
+    </p>
+    <div class="hero-actions">
+      <a class="btn" href="%E5%8E%9F%E5%9E%8B/FitPulse_%E5%8E%9F%E5%9E%8B.html" target="_blank" rel="noopener">查看完整原型 →</a>
+      <a class="btn ghost" href="https://github.com/power819/FitPulse" target="_blank" rel="noopener">GitHub 仓库</a>
+    </div>
+    <div class="meta">
+      <div><strong>7</strong>页面原型</div>
+      <div><strong>3</strong>大智能体能力</div>
+      <div><strong>11</strong>人团队</div>
+      <div><strong>React 18 / FastAPI</strong>技术栈</div>
+    </div>
+  </div>
+
+  <section id="pages">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>页面一览</h2>
+        <p>移动端四页承载完整的用户旅程，后台三页服务于知识库与运营管理。点击卡片可查看对应设计说明。</p>
+      </div>
+      <div class="grid">
+
+        <a class="card" href="%E5%8E%9F%E5%9E%8B/FitPulse_%E5%8E%9F%E5%9E%8B.html" target="_blank" rel="noopener">
+          <div class="thumb"><img src="%E5%8E%9F%E5%9E%8B/FitPulse_%E9%A6%96%E9%A1%B5-%E6%95%99%E7%BB%83%E5%AF%B9%E8%AF%9D_v2.png" alt="智能教练对话首页原型"></div>
+          <div class="card-body">
+            <div class="tagline"><span class="num">01</span>移动端 · 首页</div>
+            <h3>智能教练对话</h3>
+            <p>文字与图片双通道提问，回答以「要领 + 目标肌群 + 常见错误 + 出处」的结构化卡片呈现，每张卡都能继续追问。</p>
+            <div class="chips"><span class="chip">SSE 流式</span><span class="chip">动作卡</span><span class="chip">快捷提问</span></div>
+          </div>
+        </a>
+
+        <a class="card" href="%E5%8E%9F%E5%9E%8B/FitPulse_%E5%8E%9F%E5%9E%8B.html" target="_blank" rel="noopener">
+          <div class="thumb"><img src="%E5%8E%9F%E5%9E%8B/FitPulse_%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92%E9%A1%B5_v2.png" alt="训练计划页原型"></div>
+          <div class="card-body">
+            <div class="tagline"><span class="num">02</span>移动端 · 计划</div>
+            <h3>训练计划</h3>
+            <p>按水平、目标、器械与每周天数生成周计划，每天给出动作、组次与休息；勾选即打卡，进度环实时更新。</p>
+            <div class="chips"><span class="chip">周切换</span><span class="chip">打卡乐观更新</span><span class="chip">完成率</span></div>
+          </div>
+        </a>
+
+        <a class="card" href="%E5%8E%9F%E5%9E%8B/FitPulse_%E5%8E%9F%E5%9E%8B.html" target="_blank" rel="noopener">
+          <div class="thumb"><img src="%E5%8E%9F%E5%9E%8B/FitPulse_%E5%8A%A8%E4%BD%9C%E7%BA%A0%E9%94%99%E9%A1%B5.png" alt="动作纠错页原型"></div>
+          <div class="card-body">
+            <div class="tagline"><span class="num">03</span>移动端 · 纠错</div>
+            <h3>动作纠错</h3>
+            <p>上传一张训练照片，返回整体评价与逐条问题：部位、问题描述、纠正建议、参考图，按严重程度着色。</p>
+            <div class="chips"><span class="chip">视觉分析</span><span class="chip">分级问题</span><span class="chip">安全提示</span></div>
+          </div>
+        </a>
+
+        <a class="card" href="%E5%8E%9F%E5%9E%8B/FitPulse_%E5%8E%9F%E5%9E%8B.html" target="_blank" rel="noopener">
+          <div class="thumb"><img src="%E5%8E%9F%E5%9E%8B/FitPulse_%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83.png" alt="个人中心原型"></div>
+          <div class="card-body">
+            <div class="tagline"><span class="num">04</span>移动端 · 我的</div>
+            <h3>个人中心</h3>
+            <p>档案可编辑（水平 / 目标 / 器械 / 每周天数），训练天数、次数、时长与消耗四项统计，外加本周完成率。</p>
+            <div class="chips"><span class="chip">档案编辑</span><span class="chip">训练统计</span><span class="chip">纠错记录</span></div>
+          </div>
+        </a>
+
+        <a class="card" href="%E5%8E%9F%E5%9E%8B/FitPulse_%E5%8E%9F%E5%9E%8B.html" target="_blank" rel="noopener">
+          <div class="thumb"><img src="%E5%8E%9F%E5%9E%8B/FitPulse_%E5%90%8E%E5%8F%B0-%E7%9F%A5%E8%AF%86%E5%BA%93.png" alt="后台知识库管理原型"></div>
+          <div class="card-body">
+            <div class="tagline"><span class="num">05</span>后台 · 知识库</div>
+            <h3>知识库管理</h3>
+            <p>标准动作、肌肉发力、错误姿势三类条目的增删改查，字段与向量库 chunk 一一对应，编辑后触发重建索引。</p>
+            <div class="chips"><span class="chip">条目 CRUD</span><span class="chip">模块筛选</span><span class="chip">重建索引</span></div>
+          </div>
+        </a>
+
+        <a class="card" href="%E5%8E%9F%E5%9E%8B/FitPulse_%E5%8E%9F%E5%9E%8B.html" target="_blank" rel="noopener">
+          <div class="thumb"><img src="%E5%8E%9F%E5%9E%8B/FitPulse_%E5%90%8E%E5%8F%B0-%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%A7%88.png" alt="后台系统概览原型"></div>
+          <div class="card-body">
+            <div class="tagline"><span class="num">06</span>后台 · 概览</div>
+            <h3>系统概览</h3>
+            <p>总用户、今日活跃、本周纠错、知识库条目四个关键指标，近 7 日 API 调用趋势与待处理用户反馈。</p>
+            <div class="chips"><span class="chip">指标卡</span><span class="chip">调用趋势</span><span class="chip">反馈处理</span></div>
+          </div>
+        </a>
+
+        <div class="card">
+          <div class="thumb placeholder"><span>用户管理 · 原型见完整页面</span></div>
+          <div class="card-body">
+            <div class="tagline"><span class="num">07</span>后台 · 用户</div>
+            <h3>用户管理</h3>
+            <p>用户列表与状态筛选，展示注册时间与累计训练天数，支持按昵称检索与分页浏览。</p>
+            <div class="chips"><span class="chip">搜索筛选</span><span class="chip">分页</span><span class="chip">状态标签</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="flows" style="background:#F6F4F1;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>三条主流程</h2>
+        <p>原型的重点不在页面数量，而在用户与智能体之间的任务闭环——每次交互都要能走到一个可行动的结果。</p>
+      </div>
+      <div class="flows">
+        <div class="flow">
+          <h4><i>A</i>动作查询</h4>
+          <p style="font-size:13.5px;color:var(--ink-3)">不会练 → 看懂要领</p>
+          <ol>
+            <li>点击「查动作」或直接提问</li>
+            <li>意图识别为动作查询，触发 RAG 检索</li>
+            <li>返回要领、肌群、呼吸节奏与常见错误</li>
+            <li>标注知识出处，可继续追问细节</li>
+          </ol>
+        </div>
+        <div class="flow">
+          <h4><i>B</i>计划生成</h4>
+          <p style="font-size:13.5px;color:var(--ink-3)">不知道练什么 → 一周安排</p>
+          <ol>
+            <li>读取档案（水平 / 目标 / 器械 / 天数）</li>
+            <li>工具按规则编排训练分割与动作</li>
+            <li>流式输出说明，并下发结构化计划</li>
+            <li>在计划页逐条打卡，进度回写统计</li>
+          </ol>
+        </div>
+        <div class="flow">
+          <h4><i>C</i>动作纠错</h4>
+          <p style="font-size:13.5px;color:var(--ink-3)">怕练错 → 拍照诊断</p>
+          <ol>
+            <li>上传照片并可选补充说明</li>
+            <li>视觉模型识别动作与偏差</li>
+            <li>逐条给出部位、问题、纠正与参考图</li>
+            <li>出现疼痛描述时追加就医提示</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="spec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>设计规范</h2>
+        <p>全站共用一套设计令牌，原型与编码实现保持一致，避免「设计稿好看、实现走样」。</p>
+      </div>
+      <div class="tokens">
+        <div class="swatch"><div class="box" style="background:#FF6B35"></div><b>品牌橙</b><span>#FF6B35</span></div>
+        <div class="swatch"><div class="box" style="background:#FFF0E8"></div><b>浅品牌底</b><span>#FFF0E8</span></div>
+        <div class="swatch"><div class="box" style="background:#2D2D2D"></div><b>主文字</b><span>#2D2D2D</span></div>
+        <div class="swatch"><div class="box" style="background:#F5F5F5"></div><b>页面底</b><span>#F5F5F5</span></div>
+        <div class="swatch"><div class="box" style="background:#4CAF50"></div><b>完成态</b><span>#4CAF50</span></div>
+        <div class="swatch"><div class="box" style="background:#E5484D"></div><b>严重问题</b><span>#E5484D</span></div>
+      </div>
+      <p style="margin-top:26px;font-size:13.5px;color:var(--ink-2);max-width:760px">
+        正文字号 15px / 行高 22px，页面标题 17px，辅助说明 13px；间距取 4 的倍数，卡片圆角 16px，触控目标不小于 44×44px。
+        所有异步区域都实现加载、空、错误、成功四态，流式输出期间保留可读的进度提示。
+      </p>
+    </div>
+  </section>
+
+  <section id="docs" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>相关文档</h2>
+        <p>原型背后的需求、设计与接口约定。</p>
+      </div>
+      <div class="docs">
+        <a class="doc" href="https://github.com/power819/FitPulse/blob/main/docs/FitPulse_%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%96%87%E6%A1%A3.md" target="_blank" rel="noopener">
+          需求分析文档 <span>↗</span>
+        </a>
+        <a class="doc" href="https://github.com/power819/FitPulse/blob/main/docs/FitPulse_%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E%E4%B9%A6.md" target="_blank" rel="noopener">
+          系统设计说明书 <span>↗</span>
+        </a>
+        <a class="doc" href="https://github.com/power819/FitPulse/blob/main/docs/FitPulse_API%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E%E4%B9%A6.md" target="_blank" rel="noopener">
+          API 接口设计 <span>↗</span>
+        </a>
+        <a class="doc" href="https://github.com/power819/FitPulse/blob/main/docs/FitPulse_%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E.md" target="_blank" rel="noopener">
+          前端设计说明 <span>↗</span>
+        </a>
+        <a class="doc" href="https://github.com/power819/FitPulse/blob/main/docs/FitPulse_%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E%E4%B9%A6.md" target="_blank" rel="noopener">
+          数据库设计说明书 <span>↗</span>
+        </a>
+        <a class="doc" href="https://github.com/power819/FitPulse" target="_blank" rel="noopener">
+          团队仓库 <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap row">
+    <div>FitPulse 团队 · 2026 秋软件工程实践 · 原型由 HTML/CSS 手工绘制</div>
+    <div><a href="https://github.com/power819/FitPulse" target="_blank" rel="noopener">power819/FitPulse</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

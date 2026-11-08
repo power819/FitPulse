@@ -1,0 +1,44 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam dpi 200
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam ArrowColor #7A7A7A
+skinparam state {
+  BackgroundColor #FFFFFF
+  BorderColor #FF6B35
+  FontColor #2D2D2D
+}
+
+title 图3  单条对话的流式状态机
+
+[*] --> Idle : 进入 ChatView
+Idle --> Sending : 用户发送成功（请求已发出）
+Sending --> Thinking : 收到 thinking 事件
+Sending --> Error : HTTP 4xx / 5xx
+
+Thinking --> ToolRunning : 收到 tool_call(status=running)
+ToolRunning --> Thinking : 工具返回，继续生成
+Thinking --> Streaming : 收到首个 text 事件
+Thinking --> Done : 直接收到 done（无正文）
+
+Streaming --> Streaming : 收到 text 增量
+Streaming --> Done : 收到 done
+Streaming --> Error : 收到 error 事件 / 断流超时
+
+ToolRunning --> Error : 工具失败（error 事件）
+
+Error --> Sending : 点击重试
+Done --> Idle : 新消息可发送
+
+note right of Streaming
+  拼接规则：所有 text 事件按到达顺序
+  追加到同一 assistant 消息缓冲区；
+  不得并发渲染为多条消息。
+end note
+
+note bottom of Error
+  HTTP 层错误与流内 error 事件
+  必须走同一套错误 UI（ErrorBanner / 错误气泡）。
+end note
+@enduml

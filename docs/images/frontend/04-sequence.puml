@@ -1,0 +1,63 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam dpi 200
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 150
+skinparam ArrowColor #7A7A7A
+skinparam sequence {
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantBorderColor #FF6B35
+  LifeLineBorderColor #BFBFBF
+  GroupBorderColor #FF6B35
+  GroupBackgroundColor #FFF6F0
+}
+
+title 图4  对话主流程时序图（SSE 流式渲染）
+
+actor "用户" as U
+participant "ChatView\n(页面)" as V
+participant "useChatStore\n(会话状态)" as S
+participant "sseClient\n(POST + 流解析)" as C
+participant "API 网关" as G
+participant "Orchestrator\n(FastAPI)" as O
+participant "RAG + Claude API" as L
+
+U -> V: 输入文字 / 选择图片，点击发送
+V -> V: 乐观插入用户气泡，清空输入框
+V -> S: appendMessage(role=user)
+V -> C: postChat({session_id, message, images})
+C -> G: POST /api/chat\nAuthorization: Bearer <access_token>
+G -> O: 校验 JWT 后转发
+O -> L: 意图识别 → RAG 检索 → 调用 Claude
+O <-- L: 模型流式 token
+O --> C: 200 text/event-stream
+C --> S: connectionState = connecting
+
+group 事件流循环
+  O --> C: data: {"type":"thinking","content":"正在分析你的需求..."}
+  C --> S: onThinking(content)
+  S --> V: 渲染"正在分析…"状态条
+
+  O --> C: data: {"type":"tool_call","tool":"generate_plan","status":"running"}
+  C --> S: onToolCall(tool, status)
+  S --> V: 展示工具调用胶囊（可折叠）
+
+  loop 增量文本
+    O --> C: data: {"type":"text","content":"…片段…"}
+    C --> S: appendDelta(content)
+    S --> V: 按到达顺序拼接并逐字渲染
+  end
+
+  O --> C: data: {"type":"plan","data":{TrainingPlan}}
+  C --> S: onStructured("plan", data)
+  S --> V: 渲染计划卡片 CardBubble
+
+  O --> C: data: {"type":"done"}
+  C --> S: finish()
+  S --> V: 关闭流、光标消失、落库
+end
+
+@enduml
