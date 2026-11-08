@@ -1,0 +1,594 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/power819/FitPulse/docs/contributions/tool-schemas.json",
+  "title": "FitPulse Agent Tool Definitions",
+  "description": "FitPulse 智能教练 Agent 的工具契约。每个 tool 的 input_schema 可直接作为 Anthropic Messages API tools 参数的 input_schema 使用；execution 为编排层内部元数据，调用 API 前需剥离。",
+  "version": "1.0.0",
+  "owner": "林祺皓（工具调用 / 流程编排），学号 102401119",
+  "updated_at": "2026-11-08",
+  "$defs": {
+    "tool_error": {
+      "type": "object",
+      "description": "工具失败时返回的结构化错误。message 为可直接展示给用户的中文文案，details 仅供日志排查。",
+      "required": ["code", "message", "retryable"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "机器可读错误码，见设计文档附录 A。",
+          "examples": ["EXERCISE_NOT_FOUND", "IMAGE_UNREADABLE", "TOOL_TIMEOUT"]
+        },
+        "message": {
+          "type": "string",
+          "description": "用户可读的中文错误说明。"
+        },
+        "retryable": {
+          "type": "boolean",
+          "description": "是否允许调度器自动重试。参数校验类错误必须为 false。"
+        },
+        "suggestions": {
+          "type": "array",
+          "description": "可选的纠正建议或候选动作名。",
+          "items": { "type": "string" }
+        },
+        "details": {
+          "type": "object",
+          "description": "内部排查信息，不注入 LLM 上下文。",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "tool_meta": {
+      "type": "object",
+      "description": "本次工具执行的元信息，用于可观测性与结果截断标记。",
+      "required": ["latency_ms"],
+      "properties": {
+        "latency_ms": { "type": "integer", "minimum": 0 },
+        "cached": { "type": "boolean", "default": false },
+        "retrieved_chunks": { "type": "integer", "minimum": 0 },
+        "truncated": { "type": "boolean", "default": false },
+        "trace_id": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "exercise_info": {
+      "type": "object",
+      "description": "动作卡片数据，对应 exercises 表 + RAG 标准动作知识。",
+      "required": [
+        "exercise_id",
+        "name",
+        "category",
+        "difficulty",
+        "target_muscles",
+        "instructions"
+      ],
+      "properties": {
+        "exercise_id": { "type": "string" },
+        "name": { "type": "string" },
+        "matched_by": {
+          "type": "string",
+          "enum": ["exact", "alias", "fuzzy"],
+          "default": "exact"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["chest", "back", "legs", "shoulders", "arms", "core", "full_body"]
+        },
+        "difficulty": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced"]
+        },
+        "equipment_needed": { "type": ["string", "null"] },
+        "target_muscles": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "synergists": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "instructions": {
+          "type": "string",
+          "description": "Markdown 格式的标准动作要领。"
+        },
+        "breathing": { "type": ["string", "null"] },
+        "tempo": { "type": ["string", "null"] },
+        "common_errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["error", "harm", "fix"],
+            "properties": {
+              "error": { "type": "string", "description": "错误表现" },
+              "harm": { "type": "string", "description": "潜在危害" },
+              "fix": { "type": "string", "description": "纠正方法" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "image_urls": {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" }
+        },
+        "source": {
+          "type": ["string", "null"],
+          "description": "知识出处，前端需展示。"
+        }
+      },
+      "additionalProperties": false
+    },
+    "plan_exercise": {
+      "type": "object",
+      "description": "训练日中的单个动作安排。",
+      "required": ["exercise_id", "name", "sets", "reps", "rest_seconds", "sort_order"],
+      "properties": {
+        "exercise_id": { "type": "string" },
+        "name": { "type": "string" },
+        "sets": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "reps": { "type": "integer", "minimum": 1, "maximum": 300 },
+        "reps_unit": {
+          "type": "string",
+          "enum": ["reps", "seconds"],
+          "default": "reps",
+          "description": "次数单位；静态支撑类动作用 seconds。若启用，需数据库 plan_exercises 增加同名字段。"
+        },
+        "rest_seconds": { "type": "integer", "minimum": 0, "maximum": 300 },
+        "notes": { "type": ["string", "null"] },
+        "sort_order": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "plan_day": {
+      "type": "object",
+      "required": ["day_index", "focus_area", "estimated_minutes", "exercises"],
+      "properties": {
+        "day_index": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 7,
+          "description": "星期几，1=周一。"
+        },
+        "focus_area": { "type": "string", "examples": ["胸部+肱三头肌"] },
+        "estimated_minutes": { "type": "integer", "minimum": 5, "maximum": 180 },
+        "warmup": {
+          "type": ["object", "null"],
+          "properties": {
+            "minutes": { "type": "integer", "minimum": 0, "maximum": 30 },
+            "items": { "type": "array", "items": { "type": "string" } }
+          },
+          "additionalProperties": false
+        },
+        "exercises": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/plan_exercise" },
+          "minItems": 1,
+          "maxItems": 8
+        },
+        "cooldown": {
+          "type": ["object", "null"],
+          "properties": {
+            "minutes": { "type": "integer", "minimum": 0, "maximum": 30 },
+            "items": { "type": "array", "items": { "type": "string" } }
+          },
+          "additionalProperties": false
+        },
+        "rationale": {
+          "type": ["string", "null"],
+          "description": "该训练日的安排理由，供 LLM 润色引用。"
+        }
+      },
+      "additionalProperties": false
+    },
+    "training_plan": {
+      "type": "object",
+      "description": "结构化周训练计划，对应 training_plans / plan_days / plan_exercises。",
+      "required": [
+        "plan_id",
+        "week_number",
+        "start_date",
+        "end_date",
+        "split_strategy",
+        "days",
+        "explanation"
+      ],
+      "properties": {
+        "plan_id": { "type": "string" },
+        "week_number": { "type": "integer", "minimum": 1 },
+        "start_date": { "type": "string", "format": "date" },
+        "end_date": { "type": "string", "format": "date" },
+        "split_strategy": {
+          "type": "string",
+          "enum": [
+            "full_body_x3",
+            "upper_lower_x2",
+            "push_pull_legs_5",
+            "ppl_x2",
+            "custom"
+          ]
+        },
+        "days": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/plan_day" },
+          "minItems": 1,
+          "maxItems": 7
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Markdown 计划说明，包含整体思路与注意事项。"
+        },
+        "assumptions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "生成时采用的默认假设，需在回复中向用户说明。"
+        },
+        "safety_notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "correction_issue": {
+      "type": "object",
+      "description": "单个姿势偏差，对应 correction_issues 表。",
+      "required": [
+        "body_part",
+        "problem_description",
+        "correction_advice",
+        "severity"
+      ],
+      "properties": {
+        "body_part": { "type": "string", "examples": ["腰部", "膝盖"] },
+        "problem_description": { "type": "string" },
+        "correction_advice": { "type": "string" },
+        "reference_image_url": { "type": ["string", "null"], "format": "uri" },
+        "severity": {
+          "type": "string",
+          "enum": ["mild", "moderate", "severe"]
+        },
+        "matched_chunk_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "支撑该结论的知识片段 ID，用于溯源。"
+        }
+      },
+      "additionalProperties": false
+    },
+    "correction_report": {
+      "type": "object",
+      "description": "动作纠错报告，对应 posture_corrections + correction_issues。",
+      "required": [
+        "correction_id",
+        "detected_exercise",
+        "detection_confidence",
+        "overall_assessment",
+        "issues",
+        "safety_note",
+        "is_emergency",
+        "references",
+        "limitations"
+      ],
+      "properties": {
+        "correction_id": { "type": "string" },
+        "detected_exercise": { "type": "string" },
+        "detection_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "overall_assessment": { "type": "string" },
+        "issues": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/correction_issue" },
+          "maxItems": 6
+        },
+        "safety_note": {
+          "type": ["string", "null"],
+          "description": "出现疼痛等危险信号时的安全提示，必须优先展示。"
+        },
+        "is_emergency": {
+          "type": "boolean",
+          "description": "为 true 时前端须置顶安全提示，LLM 不得继续给出训练优化建议。"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["chunk_id", "module", "source"],
+            "properties": {
+              "chunk_id": { "type": "string" },
+              "module": {
+                "type": "string",
+                "enum": ["standard_action", "muscle_activation", "error_harm"]
+              },
+              "source": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "二维单图分析的固有限制说明，例如无法判断负重与深度。"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "tools": [
+    {
+      "name": "query_exercise",
+      "description": "查询健身动作的标准要领、目标肌群、协同肌群、配图、常见错误与知识出处。当用户询问某个动作怎么做、练哪里、注意事项、常见错误，或需要动作替代方案时调用。只读，不修改任何数据。",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "description": "动作名称或常见别名，如“深蹲”“哑铃卧推”“平板支撑”。"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "instructions",
+                "target_muscles",
+                "synergists",
+                "common_errors",
+                "image_urls",
+                "breathing",
+                "tempo",
+                "source"
+              ]
+            },
+            "uniqueItems": true,
+            "description": "需要返回的字段子集；省略时返回全部字段。"
+          },
+          "fuzzy": {
+            "type": "boolean",
+            "default": true,
+            "description": "名称未精确命中时是否启用别名/模糊检索。"
+          }
+        },
+        "required": ["name"],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["ok", "tool", "data", "meta"],
+        "properties": {
+          "ok": { "type": "boolean" },
+          "tool": { "const": "query_exercise" },
+          "data": {
+            "anyOf": [{ "$ref": "#/$defs/exercise_info" }, { "type": "null" }]
+          },
+          "error": {
+            "anyOf": [{ "$ref": "#/$defs/tool_error" }, { "type": "null" }]
+          },
+          "meta": { "$ref": "#/$defs/tool_meta" }
+        },
+        "additionalProperties": false,
+        "description": "不变量：ok=true 时 data 非空；ok=false 时 data=null 且 error 非空。"
+      },
+      "execution": {
+        "handler": "backend.tools.exercise_query.query_exercise",
+        "side_effects": "read",
+        "timeout_ms": 8000,
+        "max_retries": 2,
+        "cache_ttl_seconds": 600,
+        "concurrency_safe": true,
+        "requires_user_confirmation": false
+      }
+    },
+    {
+      "name": "generate_plan",
+      "description": "根据用户健身水平、目标、可用器械、每周训练天数和单次时长，生成结构化周训练计划（含每个动作的组数、次数、休息时间）。当用户要求制定训练计划、周计划或询问今天练什么时调用。本工具只生成计划，不落库；落库由编排层调用计划服务完成。",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "level": {
+            "type": "string",
+            "enum": ["beginner", "intermediate", "advanced"],
+            "description": "用户健身水平。"
+          },
+          "goal": {
+            "type": "string",
+            "enum": ["lose_fat", "build_muscle", "improve_posture", "general"],
+            "description": "训练目标。"
+          },
+          "equipment": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "bodyweight",
+                "yoga_mat",
+                "resistance_band",
+                "dumbbell",
+                "barbell",
+                "kettlebell",
+                "pull_up_bar",
+                "bench",
+                "machine",
+                "other"
+              ]
+            },
+            "uniqueItems": true,
+            "default": ["bodyweight"],
+            "description": "可用器械；空数组视为仅自重。"
+          },
+          "weekly_days": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7,
+            "description": "每周可训练天数。"
+          },
+          "session_minutes": {
+            "type": "integer",
+            "minimum": 15,
+            "maximum": 120,
+            "default": 30,
+            "description": "单次训练时长（分钟）。"
+          },
+          "focus": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["chest", "back", "legs", "shoulders", "arms", "core", "full_body"]
+            },
+            "uniqueItems": true,
+            "description": "优先训练部位；省略时按目标自动分配。"
+          },
+          "constraints": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "额外约束，如宿舍安静、膝盖旧伤、无卧推凳等。"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "description": "计划开始日期（YYYY-MM-DD）；省略时取服务器当天。"
+          },
+          "week_number": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 52,
+            "default": 1,
+            "description": "自用户开始训练起的周序号。"
+          }
+        },
+        "required": ["level", "goal", "weekly_days"],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["ok", "tool", "data", "meta"],
+        "properties": {
+          "ok": { "type": "boolean" },
+          "tool": { "const": "generate_plan" },
+          "data": {
+            "anyOf": [{ "$ref": "#/$defs/training_plan" }, { "type": "null" }]
+          },
+          "error": {
+            "anyOf": [{ "$ref": "#/$defs/tool_error" }, { "type": "null" }]
+          },
+          "meta": { "$ref": "#/$defs/tool_meta" }
+        },
+        "additionalProperties": false
+      },
+      "execution": {
+        "handler": "backend.tools.plan_generator.generate_plan",
+        "side_effects": "read",
+        "timeout_ms": 20000,
+        "max_retries": 1,
+        "cache_ttl_seconds": 0,
+        "concurrency_safe": true,
+        "requires_user_confirmation": false
+      }
+    },
+    {
+      "name": "correct_posture",
+      "description": "分析用户上传的动作照片，识别动作类型与姿势偏差，结合知识库给出问题定位、纠正建议、参考配图与安全提示。当用户上传训练照片，或询问动作是否标准、哪里不对、练完酸痛时调用。输入图片必须是系统 MinIO 签名地址，不接受任意外部 URL。",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "image_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "用户上传图片的 MinIO 短期签名 URL。"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "用户补充的文字描述，如“做深蹲时膝盖不舒服”。"
+          },
+          "exercise_hint": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "用户自述的动作名称，用于辅助识别。"
+          },
+          "concern": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "用户最关心的问题，如“腰是不是塌了”。"
+          },
+          "reported_symptoms": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["pain", "numbness", "dizziness", "joint_noise", "swelling", "none"]
+            },
+            "uniqueItems": true,
+            "default": ["none"],
+            "description": "编排层安全预检得到的症状信号；命中危险信号时工具须返回 is_emergency=true。"
+          }
+        },
+        "required": ["image_url"],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["ok", "tool", "data", "meta"],
+        "properties": {
+          "ok": { "type": "boolean" },
+          "tool": { "const": "correct_posture" },
+          "data": {
+            "anyOf": [{ "$ref": "#/$defs/correction_report" }, { "type": "null" }]
+          },
+          "error": {
+            "anyOf": [{ "$ref": "#/$defs/tool_error" }, { "type": "null" }]
+          },
+          "meta": { "$ref": "#/$defs/tool_meta" }
+        },
+        "additionalProperties": false
+      },
+      "execution": {
+        "handler": "backend.tools.posture_corrector.correct_posture",
+        "side_effects": "read",
+        "timeout_ms": 45000,
+        "max_retries": 0,
+        "cache_ttl_seconds": 0,
+        "concurrency_safe": true,
+        "requires_user_confirmation": false,
+        "image_url_allowlist": ["minio://fitpulse-uploads/*"]
+      }
+    }
+  ],
+  "internal_services": [
+    {
+      "name": "rag_search",
+      "description": "检索三大知识模块。query 为自然语言或关键词；filters.module 限定模块；min_score 默认 0.6；返回 Top-K（默认 5）知识片段。",
+      "side_effects": "read",
+      "exposed_to_llm": false
+    },
+    {
+      "name": "get_user_profile",
+      "description": "读取用户档案（水平、目标、器械、每周天数、伤病史），用于槽位预填与计划生成。",
+      "side_effects": "read",
+      "exposed_to_llm": false
+    },
+    {
+      "name": "persist_training_plan",
+      "description": "将 generate_plan 的输出写入 training_plans / plan_days / plan_exercises，返回持久化后的 plan_id。",
+      "side_effects": "write",
+      "exposed_to_llm": false
+    },
+    {
+      "name": "persist_correction",
+      "description": "将 correct_posture 的报告写入 posture_corrections / correction_issues。",
+      "side_effects": "write",
+      "exposed_to_llm": false
+    },
+    {
+      "name": "get_workout_stats",
+      "description": "查询用户训练打卡统计，支撑 progress_query 意图。",
+      "side_effects": "read",
+      "exposed_to_llm": false
+    },
+    {
+      "name": "update_user_profile",
+      "description": "更新用户档案。必须由用户在对话中明确确认后执行，参数做白名单校验。",
+      "side_effects": "write",
+      "exposed_to_llm": false
+    }
+  ]
+}
