@@ -1,0 +1,257 @@
+{
+  "schema_version": "1.0.0",
+  "collection": "fitpulse_error_posture",
+  "language": "zh-CN",
+  "updated_at": "2026-11-15",
+  "description": "FitPulse 错误姿势知识库：6 类常见错误姿势的表现、成因、风险、自查与纠正，服务于动作纠错。",
+  "image_root": "assets",
+  "entries": [
+    {
+      "id": "EP-001",
+      "slug": "lumbar-hyperextension",
+      "name": "腰椎过伸（塌腰）",
+      "aliases": [
+        "塌腰",
+        "腰反弓",
+        "腰椎前凸过度",
+        "Lumbar Hyperextension"
+      ],
+      "category": "错误姿势",
+      "body_region": "腰背",
+      "risk_level": "中",
+      "common_in": [
+        "俯卧撑",
+        "平板支撑",
+        "硬拉",
+        "臀桥"
+      ],
+      "related_exercises": [
+        "EX-004",
+        "EX-005",
+        "EX-006",
+        "EX-007"
+      ],
+      "tags": [
+        "错误姿势",
+        "动作纠错",
+        "腰椎",
+        "代偿"
+      ],
+      "file": "entries/EP-001-lumbar-hyperextension.md",
+      "image": "assets/EP-001-lumbar-hyperextension.svg",
+      "source_ids": [
+        "S3",
+        "S6",
+        "S7",
+        "S8"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    },
+    {
+      "id": "EP-002",
+      "slug": "lumbar-flexion-rounding",
+      "name": "腰椎屈曲（弓背）",
+      "aliases": [
+        "弓背",
+        "圆背",
+        "弯腰硬拉",
+        "Lumbar Flexion"
+      ],
+      "category": "错误姿势",
+      "body_region": "腰背",
+      "risk_level": "高",
+      "common_in": [
+        "罗马尼亚硬拉",
+        "哑铃划船",
+        "深蹲",
+        "俯身"
+      ],
+      "related_exercises": [
+        "EX-001",
+        "EX-008",
+        "EX-009"
+      ],
+      "tags": [
+        "错误姿势",
+        "动作纠错",
+        "腰椎",
+        "髋铰链"
+      ],
+      "file": "entries/EP-002-lumbar-flexion-rounding.md",
+      "image": "assets/EP-002-lumbar-flexion-rounding.svg",
+      "source_ids": [
+        "S2",
+        "S3",
+        "S6",
+        "S8"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    },
+    {
+      "id": "EP-003",
+      "slug": "knee-valgus",
+      "name": "膝盖内扣（膝外翻）",
+      "aliases": [
+        "膝内扣",
+        "膝盖内收",
+        "膝外翻",
+        "Knee Valgus"
+      ],
+      "category": "错误姿势",
+      "body_region": "膝关节",
+      "risk_level": "中",
+      "common_in": [
+        "深蹲",
+        "弓步蹲",
+        "靠墙静蹲",
+        "开合跳"
+      ],
+      "related_exercises": [
+        "EX-001",
+        "EX-003",
+        "EX-011",
+        "EX-012"
+      ],
+      "tags": [
+        "错误姿势",
+        "动作纠错",
+        "膝关节",
+        "臀中肌"
+      ],
+      "file": "entries/EP-003-knee-valgus.md",
+      "image": "assets/EP-003-knee-valgus.svg",
+      "source_ids": [
+        "S3",
+        "S6",
+        "S7"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    },
+    {
+      "id": "EP-004",
+      "slug": "shoulder-shrugging-neck",
+      "name": "耸肩与颈部代偿",
+      "aliases": [
+        "耸肩",
+        "颈部代偿",
+        "斜方肌紧张",
+        "Shoulder Shrugging"
+      ],
+      "category": "错误姿势",
+      "body_region": "肩颈",
+      "risk_level": "中",
+      "common_in": [
+        "哑铃划船",
+        "肩上推举",
+        "俯卧撑",
+        "引体"
+      ],
+      "related_exercises": [
+        "EX-004",
+        "EX-008",
+        "EX-010"
+      ],
+      "tags": [
+        "错误姿势",
+        "动作纠错",
+        "肩颈",
+        "代偿"
+      ],
+      "file": "entries/EP-004-shoulder-shrugging-neck.md",
+      "image": "assets/EP-004-shoulder-shrugging-neck.svg",
+      "source_ids": [
+        "S3",
+        "S5",
+        "S6",
+        "S7"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    },
+    {
+      "id": "EP-005",
+      "slug": "anterior-pelvic-tilt",
+      "name": "骨盆前倾",
+      "aliases": [
+        "骨盆前倾",
+        "腰前凸",
+        "假翘臀",
+        "Anterior Pelvic Tilt"
+      ],
+      "category": "错误姿势",
+      "body_region": "骨盆",
+      "risk_level": "中",
+      "common_in": [
+        "站姿",
+        "平板支撑",
+        "深蹲",
+        "臀桥"
+      ],
+      "related_exercises": [
+        "EX-001",
+        "EX-002",
+        "EX-005"
+      ],
+      "tags": [
+        "错误姿势",
+        "动作纠错",
+        "骨盆",
+        "髋屈肌"
+      ],
+      "file": "entries/EP-005-anterior-pelvic-tilt.md",
+      "image": "assets/EP-005-anterior-pelvic-tilt.svg",
+      "source_ids": [
+        "S3",
+        "S6",
+        "S7",
+        "S8"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    },
+    {
+      "id": "EP-006",
+      "slug": "momentum-swinging",
+      "name": "借力与惯性摆动",
+      "aliases": [
+        "借力",
+        "惯性摆动",
+        "甩动代偿",
+        "Momentum Swinging",
+        "动作失控"
+      ],
+      "category": "错误姿势",
+      "body_region": "全身动作控制",
+      "risk_level": "中",
+      "common_in": [
+        "哑铃划船",
+        "肩上推举",
+        "哑铃硬拉",
+        "开合跳"
+      ],
+      "related_exercises": [
+        "EX-008",
+        "EX-010",
+        "EX-012"
+      ],
+      "tags": [
+        "错误姿势",
+        "动作纠错",
+        "动作控制",
+        "节奏"
+      ],
+      "file": "entries/EP-006-momentum-swinging.md",
+      "image": "assets/EP-006-momentum-swinging.svg",
+      "source_ids": [
+        "S2",
+        "S5",
+        "S7"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">胸大肌发力示意图</title>
+  <desc id="desc">正面示意图：标注胸大肌的发力位置，以及手略宽于肩、把地面推开、肩胛稳定三条提示。</desc>
+  <defs>
+    <style>
+
+      .bg{fill:#F7F3EA}
+      .card{fill:#FFFDF8;stroke:#D9D2C5;stroke-width:2}
+      .title{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:38px;font-weight:800;fill:#FFFDF8}
+      .kicker{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;fill:#E9C46A}
+      .meta{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:17px;font-weight:600;fill:#FFFDF8}
+      .meta2{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:15px;fill:#E9C46A}
+      .card-title{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:24px;font-weight:800;fill:#12303B}
+      .sub{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:14px;fill:#7A7062}
+      .label{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:18px;font-weight:600;fill:#12303B}
+      .small{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:14px;fill:#667085}
+      .cue-title{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:18px;font-weight:700;fill:#12303B}
+      .cue-sub{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:13.5px;fill:#667085}
+      .num{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:16px;font-weight:800;fill:#FFFDF8}
+      .footer{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:13px;fill:#8A8173}
+      .ink{fill:none;stroke:#12303B;stroke-width:15;stroke-linecap:round;stroke-linejoin:round}
+      .ink2{fill:none;stroke:#12303B;stroke-width:11;stroke-linecap:round;stroke-linejoin:round}
+      .back{fill:none;stroke:#12303B;stroke-width:12;stroke-linecap:round;stroke-linejoin:round;opacity:.22}
+      .head{fill:#12303B}
+      .muscle{fill:#2A9D8F;opacity:.30}
+      .muscle-strong{fill:#2A9D8F;opacity:.45}
+      .wrong{fill:#E76F51;opacity:.30}
+      .ground{stroke:#B9AE9C;stroke-width:4;stroke-linecap:round}
+      .accent{fill:none;stroke:#E76F51;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+      .accent-ok{fill:none;stroke:#2A9D8F;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+      .hairline{stroke:#E7E0D2;stroke-width:1.5}
+    </style>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 z" fill="#E76F51"/>
+    </marker>
+    <marker id="arrowOk" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 z" fill="#2A9D8F"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="820"/>
+  <rect width="1200" height="120" fill="#12303B"/>
+  <rect width="10" height="120" fill="#E76F51"/>
+  <text x="48" y="42" class="kicker">FITPULSE · MUSCLE ACTIVATION LIBRARY</text>
+  <text x="48" y="90" class="title">胸大肌发力</text>
+  <text x="1152" y="58" text-anchor="end" class="meta">MA-004 · 进阶 · 无器械</text>
+  <text x="1152" y="88" text-anchor="end" class="meta2">肌肉发力 · 胸部 · 正面视角</text>
+  <rect class="card" x="320" y="150" width="560" height="500" rx="24"/>
+  <text x="352" y="196" class="card-title">胸部发力位置</text>
+  <text x="848" y="196" text-anchor="end" class="sub">把地面/器械推开</text>
+  <line x1="352" y1="216" x2="848" y2="216" class="hairline"/>
+  <line class="ground" x1="380" y1="590" x2="820" y2="590"/>
+  <ellipse cx="600" cy="596" rx="200" ry="9" fill="#D9D2C5" opacity=".55"/>
+    <circle class="head" cx="600" cy="250" r="27"/>
+  <path class="ink" d="M600 276 L600 430"/>
+  <path class="back" d="M526 308 L580 430"/>
+  <path class="back" d="M674 308 L620 430"/>
+  <path class="ink" d="M526 308 L674 308"/>
+  <path class="ink2" d="M526 308 L500 426 L500 472"/>
+  <path class="ink2" d="M674 308 L700 426 L700 472"/>
+  <path class="ink" d="M580 430 L620 430"/>
+  <path class="ink" d="M580 430 L554 510 L554 590"/>
+  <path class="ink" d="M620 430 L646 510 L646 590"/>
+  <path class="ink2" d="M546 590 L574 590"/>
+  <path class="ink2" d="M626 590 L654 590"/>
+  <ellipse class="muscle-strong" cx="600" cy="340" rx="74" ry="42"/>
+
+  <rect x="48" y="680" width="352" height="92" rx="18" fill="#FFFDF8" stroke="#D9D2C5" stroke-width="2"/>
+  <circle cx="82" cy="726" r="16" fill="#2A9D8F"/>
+  <text x="82" y="732" text-anchor="middle" class="num">1</text>
+  <text x="112" y="716" class="cue-title">手略宽于肩</text>
+  <text x="112" y="742" class="cue-sub">指尖向前或微外旋</text>
+  <rect x="424" y="680" width="352" height="92" rx="18" fill="#FFFDF8" stroke="#D9D2C5" stroke-width="2"/>
+  <circle cx="458" cy="726" r="16" fill="#2A9D8F"/>
+  <text x="458" y="732" text-anchor="middle" class="num">2</text>
+  <text x="488" y="716" class="cue-title">把地面推开</text>
+  <text x="488" y="742" class="cue-sub">想象推开身体而非身体下沉</text>
+  <rect x="800" y="680" width="352" height="92" rx="18" fill="#FFFDF8" stroke="#D9D2C5" stroke-width="2"/>
+  <circle cx="834" cy="726" r="16" fill="#2A9D8F"/>
+  <text x="834" y="732" text-anchor="middle" class="num">3</text>
+  <text x="864" y="716" class="cue-title">肩胛稳定</text>
+  <text x="864" y="742" class="cue-sub">后收下沉，不耸肩不夹</text>
+  <text x="48" y="805" class="footer">FitPulse 原创示意图 · 仅作动作教学参考 · 非医学建议</text>
+  <text x="1152" y="805" text-anchor="end" class="footer">MA-004 · v1.0</text>
+</svg>

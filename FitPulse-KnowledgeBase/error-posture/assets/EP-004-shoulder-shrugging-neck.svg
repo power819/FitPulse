@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">耸肩与颈部代偿错误与纠正对比示意图</title>
+  <desc id="desc">双栏正面示意图：左侧为耸肩、颈部紧张错误，右侧为肩胛下沉、颈放松的纠正姿势。</desc>
+  <defs>
+    <style>
+
+      .bg{fill:#F7F3EA}
+      .card{fill:#FFFDF8;stroke:#D9D2C5;stroke-width:2}
+      .title{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:38px;font-weight:800;fill:#FFFDF8}
+      .kicker{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;fill:#E9C46A}
+      .meta{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:17px;font-weight:600;fill:#FFFDF8}
+      .meta2{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:15px;fill:#E9C46A}
+      .card-title{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:24px;font-weight:800;fill:#12303B}
+      .sub{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:14px;fill:#7A7062}
+      .label{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:18px;font-weight:600;fill:#12303B}
+      .small{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:14px;fill:#667085}
+      .cue-title{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:18px;font-weight:700;fill:#12303B}
+      .cue-sub{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:13.5px;fill:#667085}
+      .num{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:16px;font-weight:800;fill:#FFFDF8}
+      .footer{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:13px;fill:#8A8173}
+      .ink{fill:none;stroke:#12303B;stroke-width:15;stroke-linecap:round;stroke-linejoin:round}
+      .ink2{fill:none;stroke:#12303B;stroke-width:11;stroke-linecap:round;stroke-linejoin:round}
+      .back{fill:none;stroke:#12303B;stroke-width:12;stroke-linecap:round;stroke-linejoin:round;opacity:.22}
+      .head{fill:#12303B}
+      .muscle{fill:#2A9D8F;opacity:.30}
+      .muscle-strong{fill:#2A9D8F;opacity:.45}
+      .wrong{fill:#E76F51;opacity:.30}
+      .ground{stroke:#B9AE9C;stroke-width:4;stroke-linecap:round}
+      .accent{fill:none;stroke:#E76F51;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+      .accent-ok{fill:none;stroke:#2A9D8F;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+      .hairline{stroke:#E7E0D2;stroke-width:1.5}
+    </style>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 z" fill="#E76F51"/>
+    </marker>
+    <marker id="arrowOk" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 z" fill="#2A9D8F"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="820"/>
+  <rect width="1200" height="120" fill="#12303B"/>
+  <rect width="10" height="120" fill="#E76F51"/>
+  <text x="48" y="42" class="kicker">FITPULSE · POSTURE CORRECTION LIBRARY</text>
+  <text x="48" y="90" class="title">耸肩与颈部代偿</text>
+  <text x="1152" y="58" text-anchor="end" class="meta">EP-004 · 错误姿势 · 肩颈</text>
+  <text x="1152" y="88" text-anchor="end" class="meta2">动作纠错 · 正面视角</text>
+  <rect class="card" x="48" y="150" width="536" height="500" rx="24"/>
+  <text x="80" y="196" class="card-title">常见错误</text>
+  <text x="552" y="196" text-anchor="end" class="sub">肩耸起、脖子前伸</text>
+  <line x1="80" y1="216" x2="552" y2="216" class="hairline"/>
+    <line class="ground" x1="170" y1="585" x2="410" y2="585"/>
+  <ellipse cx="290" cy="591" rx="120" ry="8" fill="#D9D2C5" opacity=".55"/>
+  <circle class="head" cx="290" cy="270" r="24"/>
+  <path class="wrong" d="M220 360 L360 360" stroke-width="40" fill="none" stroke-linecap="round"/>
+  <path class="ink" d="M290 294 L290 470"/>
+  <path class="ink2" d="M222 366 L358 366"/>
+  <path class="ink2" d="M222 366 L202 466 L206 516"/>
+  <path class="ink2" d="M358 366 L378 466 L374 516"/>
+  <path class="ink" d="M270 470 L268 585"/>
+  <path class="ink" d="M310 470 L312 585"/>
+  <path class="ink2" d="M258 585 L280 585"/>
+  <path class="ink2" d="M300 585 L322 585"/>
+
+
+  <rect class="card" x="616" y="150" width="536" height="500" rx="24"/>
+  <text x="648" y="196" class="card-title">纠正后</text>
+  <text x="1120" y="196" text-anchor="end" class="sub">肩胛下沉、颈部放松</text>
+  <line x1="648" y1="216" x2="1120" y2="216" class="hairline"/>
+    <line class="ground" x1="734" y1="585" x2="974" y2="585"/>
+  <ellipse cx="854" cy="591" rx="120" ry="8" fill="#D9D2C5" opacity=".55"/>
+  <circle class="head" cx="854" cy="270" r="24"/>
+  <path class="ink" d="M854 294 L854 470"/>
+  <path class="ink2" d="M786 400 L922 400"/>
+  <path class="ink2" d="M786 400 L766 500 L770 550"/>
+  <path class="ink2" d="M922 400 L942 500 L938 550"/>
+  <path class="ink" d="M834 470 L832 585"/>
+  <path class="ink" d="M874 470 L876 585"/>
+  <path class="ink2" d="M822 585 L844 585"/>
+  <path class="ink2" d="M864 585 L886 585"/>
+  <ellipse class="muscle" cx="800" cy="414" rx="20" ry="18"/>
+  <ellipse class="muscle" cx="908" cy="414" rx="20" ry="18"/>
+
+  <text x="56" y="250" class="label">耸肩</text>
+  <text x="56" y="272" class="small">斜方肌上束紧张</text>
+  <path class="accent" d="M300 340 L300 300" marker-end="url(#arrow)"/>
+  <text x="628" y="250" class="label">肩胛下沉</text>
+  <text x="628" y="272" class="small">中下斜方肌发力</text>
+  <path class="accent-ok" d="M860 430 L860 470" marker-end="url(#arrowOk)"/>
+  <rect x="48" y="680" width="352" height="92" rx="18" fill="#FFFDF8" stroke="#D9D2C5" stroke-width="2"/>
+  <circle cx="82" cy="726" r="16" fill="#2A9D8F"/>
+  <text x="82" y="732" text-anchor="middle" class="num">1</text>
+  <text x="112" y="716" class="cue-title">肩胛后收下沉</text>
+  <text x="112" y="742" class="cue-sub">先沉肩再启动手臂</text>
+  <rect x="424" y="680" width="352" height="92" rx="18" fill="#FFFDF8" stroke="#D9D2C5" stroke-width="2"/>
+  <circle cx="458" cy="726" r="16" fill="#2A9D8F"/>
+  <text x="458" y="732" text-anchor="middle" class="num">2</text>
+  <text x="488" y="716" class="cue-title">降低重量</text>
+  <text x="488" y="742" class="cue-sub">重量减到不耸肩为止</text>
+  <rect x="800" y="680" width="352" height="92" rx="18" fill="#FFFDF8" stroke="#D9D2C5" stroke-width="2"/>
+  <circle cx="834" cy="726" r="16" fill="#2A9D8F"/>
+  <text x="834" y="732" text-anchor="middle" class="num">3</text>
+  <text x="864" y="716" class="cue-title">颈放松</text>
+  <text x="864" y="742" class="cue-sub">下颌微收，别前伸</text>
+  <text x="48" y="805" class="footer">FitPulse 原创示意图 · 仅作动作教学参考 · 非医学建议</text>
+  <text x="1152" y="805" text-anchor="end" class="footer">EP-004 · v1.0</text>
+</svg>

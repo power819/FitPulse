@@ -1,0 +1,296 @@
+{
+  "schema_version": "1.0.0",
+  "collection": "fitpulse_muscle_activation",
+  "language": "zh-CN",
+  "updated_at": "2026-11-15",
+  "description": "FitPulse 肌肉发力知识库：6 个核心肌群的发力感、激活方法、代偿信号与自测，服务于动作查询与动作纠错。",
+  "image_root": "assets",
+  "entries": [
+    {
+      "id": "MA-001",
+      "slug": "glute-activation",
+      "name": "臀大肌激活与发力",
+      "aliases": [
+        "臀肌激活",
+        "臀部发力感",
+        "臀大肌",
+        "Glute Activation"
+      ],
+      "category": "肌肉发力",
+      "target_muscle": "臀大肌",
+      "related_muscles": [
+        "臀中肌",
+        "腘绳肌"
+      ],
+      "related_patterns": [
+        "hinge",
+        "squat",
+        "lunge"
+      ],
+      "related_exercises": [
+        "EX-001",
+        "EX-002",
+        "EX-003",
+        "EX-009"
+      ],
+      "difficulty": "入门",
+      "equipment": [
+        "无"
+      ],
+      "tags": [
+        "发力感",
+        "肌肉激活",
+        "动作纠错",
+        "臀腿"
+      ],
+      "file": "entries/MA-001-glute-activation.md",
+      "image": "assets/MA-001-glute-activation.svg",
+      "source_ids": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    },
+    {
+      "id": "MA-002",
+      "slug": "core-bracing",
+      "name": "腹部核心收紧与呼吸支撑",
+      "aliases": [
+        "核心收紧",
+        "瓦式呼吸",
+        "腹压支撑",
+        "Core Bracing",
+        "腹部支撑"
+      ],
+      "category": "肌肉发力",
+      "target_muscle": "腹横肌",
+      "related_muscles": [
+        "腹内斜肌",
+        "腹外斜肌",
+        "腹直肌",
+        "膈肌",
+        "多裂肌"
+      ],
+      "related_patterns": [
+        "core_anti_extension",
+        "core_anti_rotation",
+        "squat",
+        "hinge"
+      ],
+      "related_exercises": [
+        "EX-001",
+        "EX-005",
+        "EX-006",
+        "EX-007",
+        "EX-009"
+      ],
+      "difficulty": "入门",
+      "equipment": [
+        "无"
+      ],
+      "tags": [
+        "发力感",
+        "核心",
+        "呼吸",
+        "动作纠错"
+      ],
+      "file": "entries/MA-002-core-bracing.md",
+      "image": "assets/MA-002-core-bracing.svg",
+      "source_ids": [
+        "S1",
+        "S2",
+        "S5",
+        "S6",
+        "S8"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    },
+    {
+      "id": "MA-003",
+      "slug": "lat-back-activation",
+      "name": "背阔肌与背部发力",
+      "aliases": [
+        "背部发力",
+        "背阔肌激活",
+        "划船发力感",
+        "Lat Activation"
+      ],
+      "category": "肌肉发力",
+      "target_muscle": "背阔肌",
+      "related_muscles": [
+        "菱形肌",
+        "中下斜方肌",
+        "肱二头肌",
+        "三角肌后束"
+      ],
+      "related_patterns": [
+        "horizontal_pull"
+      ],
+      "related_exercises": [
+        "EX-008"
+      ],
+      "difficulty": "进阶",
+      "equipment": [
+        "哑铃",
+        "稳固椅子或训练凳"
+      ],
+      "tags": [
+        "发力感",
+        "肌肉激活",
+        "动作纠错",
+        "背部"
+      ],
+      "file": "entries/MA-003-lat-back-activation.md",
+      "image": "assets/MA-003-lat-back-activation.svg",
+      "source_ids": [
+        "S2",
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    },
+    {
+      "id": "MA-004",
+      "slug": "chest-activation",
+      "name": "胸大肌发力",
+      "aliases": [
+        "胸部发力",
+        "胸肌激活",
+        "俯卧撑发力感",
+        "Chest Activation"
+      ],
+      "category": "肌肉发力",
+      "target_muscle": "胸大肌",
+      "related_muscles": [
+        "肱三头肌",
+        "三角肌前束",
+        "前锯肌"
+      ],
+      "related_patterns": [
+        "horizontal_push"
+      ],
+      "related_exercises": [
+        "EX-004"
+      ],
+      "difficulty": "进阶",
+      "equipment": [
+        "无"
+      ],
+      "tags": [
+        "发力感",
+        "肌肉激活",
+        "动作纠错",
+        "胸部"
+      ],
+      "file": "entries/MA-004-chest-activation.md",
+      "image": "assets/MA-004-chest-activation.svg",
+      "source_ids": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    },
+    {
+      "id": "MA-005",
+      "slug": "quad-activation",
+      "name": "股四头肌发力",
+      "aliases": [
+        "大腿前侧发力",
+        "股四头肌激活",
+        "深蹲发力感",
+        "Quad Activation"
+      ],
+      "category": "肌肉发力",
+      "target_muscle": "股四头肌",
+      "related_muscles": [
+        "臀大肌",
+        "腘绳肌",
+        "内收肌群"
+      ],
+      "related_patterns": [
+        "squat",
+        "lunge"
+      ],
+      "related_exercises": [
+        "EX-001",
+        "EX-003",
+        "EX-011"
+      ],
+      "difficulty": "入门",
+      "equipment": [
+        "无"
+      ],
+      "tags": [
+        "发力感",
+        "肌肉激活",
+        "动作纠错",
+        "大腿"
+      ],
+      "file": "entries/MA-005-quad-activation.md",
+      "image": "assets/MA-005-quad-activation.svg",
+      "source_ids": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    },
+    {
+      "id": "MA-006",
+      "slug": "scapular-shoulder-control",
+      "name": "肩胛骨稳定与三角肌发力",
+      "aliases": [
+        "肩胛稳定",
+        "三角肌发力",
+        "推举发力感",
+        "Scapular Control",
+        "肩胛骨控制"
+      ],
+      "category": "肌肉发力",
+      "target_muscle": "三角肌",
+      "related_muscles": [
+        "前锯肌",
+        "中下斜方肌",
+        "菱形肌",
+        "肩袖肌群"
+      ],
+      "related_patterns": [
+        "vertical_push",
+        "horizontal_push",
+        "horizontal_pull"
+      ],
+      "related_exercises": [
+        "EX-004",
+        "EX-008",
+        "EX-010"
+      ],
+      "difficulty": "进阶",
+      "equipment": [
+        "哑铃"
+      ],
+      "tags": [
+        "发力感",
+        "肌肉激活",
+        "动作纠错",
+        "肩部"
+      ],
+      "file": "entries/MA-006-scapular-shoulder-control.md",
+      "image": "assets/MA-006-scapular-shoulder-control.svg",
+      "source_ids": [
+        "S2",
+        "S3",
+        "S6"
+      ],
+      "version": "1.0",
+      "last_reviewed": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">骨盆前倾错误与纠正对比示意图</title>
+  <desc id="desc">双栏侧面示意图：左侧为骨盆前倾、腰椎前凸过度错误，右侧为骨盆中立、收腹夹臀的纠正姿势。</desc>
+  <defs>
+    <style>
+
+      .bg{fill:#F7F3EA}
+      .card{fill:#FFFDF8;stroke:#D9D2C5;stroke-width:2}
+      .title{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:38px;font-weight:800;fill:#FFFDF8}
+      .kicker{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;fill:#E9C46A}
+      .meta{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:17px;font-weight:600;fill:#FFFDF8}
+      .meta2{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:15px;fill:#E9C46A}
+      .card-title{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:24px;font-weight:800;fill:#12303B}
+      .sub{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:14px;fill:#7A7062}
+      .label{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:18px;font-weight:600;fill:#12303B}
+      .small{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:14px;fill:#667085}
+      .cue-title{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:18px;font-weight:700;fill:#12303B}
+      .cue-sub{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:13.5px;fill:#667085}
+      .num{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:16px;font-weight:800;fill:#FFFDF8}
+      .footer{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;font-size:13px;fill:#8A8173}
+      .ink{fill:none;stroke:#12303B;stroke-width:15;stroke-linecap:round;stroke-linejoin:round}
+      .ink2{fill:none;stroke:#12303B;stroke-width:11;stroke-linecap:round;stroke-linejoin:round}
+      .back{fill:none;stroke:#12303B;stroke-width:12;stroke-linecap:round;stroke-linejoin:round;opacity:.22}
+      .head{fill:#12303B}
+      .muscle{fill:#2A9D8F;opacity:.30}
+      .muscle-strong{fill:#2A9D8F;opacity:.45}
+      .wrong{fill:#E76F51;opacity:.30}
+      .ground{stroke:#B9AE9C;stroke-width:4;stroke-linecap:round}
+      .accent{fill:none;stroke:#E76F51;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+      .accent-ok{fill:none;stroke:#2A9D8F;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+      .hairline{stroke:#E7E0D2;stroke-width:1.5}
+    </style>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 z" fill="#E76F51"/>
+    </marker>
+    <marker id="arrowOk" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 z" fill="#2A9D8F"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="820"/>
+  <rect width="1200" height="120" fill="#12303B"/>
+  <rect width="10" height="120" fill="#E76F51"/>
+  <text x="48" y="42" class="kicker">FITPULSE · POSTURE CORRECTION LIBRARY</text>
+  <text x="48" y="90" class="title">骨盆前倾</text>
+  <text x="1152" y="58" text-anchor="end" class="meta">EP-005 · 错误姿势 · 骨盆</text>
+  <text x="1152" y="88" text-anchor="end" class="meta2">动作纠错 · 侧面视角</text>
+  <rect class="card" x="48" y="150" width="536" height="500" rx="24"/>
+  <text x="80" y="196" class="card-title">常见错误</text>
+  <text x="552" y="196" text-anchor="end" class="sub">骨盆前倾、腰反弓</text>
+  <line x1="80" y1="216" x2="552" y2="216" class="hairline"/>
+    <line class="ground" x1="180" y1="585" x2="400" y2="585"/>
+  <ellipse cx="290" cy="591" rx="110" ry="8" fill="#D9D2C5" opacity=".55"/>
+  <circle class="head" cx="290" cy="250" r="24"/>
+  <path class="ink2" d="M290 278 L290 310"/>
+  <path class="wrong" d="M290 310 Q246 424 290 430" stroke-width="44" fill="none" stroke-linecap="round"/>
+  <path class="ink" d="M290 310 L290 430"/>
+  <path class="ink2" d="M290 310 L316 400 L324 450"/>
+  <path class="ink" d="M290 430 L290 500 L290 585"/>
+  <path class="ink2" d="M278 585 L310 585"/>
+
+
+  <rect class="card" x="616" y="150" width="536" height="500" rx="24"/>
+  <text x="648" y="196" class="card-title">纠正后</text>
+  <text x="1120" y="196" text-anchor="end" class="sub">骨盆中立、收腹夹臀</text>
+  <line x1="648" y1="216" x2="1120" y2="216" class="hairline"/>
+    <line class="ground" x1="744" y1="585" x2="964" y2="585"/>
+  <ellipse cx="854" cy="591" rx="110" ry="8" fill="#D9D2C5" opacity=".55"/>
+  <circle class="head" cx="854" cy="250" r="24"/>
+  <path class="ink2" d="M854 278 L854 310"/>
+  <path class="ink" d="M854 310 L854 430"/>
+  <path class="ink2" d="M854 310 L880 400 L888 450"/>
+  <path class="ink" d="M854 430 L854 500 L854 585"/>
+  <path class="ink2" d="M842 585 L874 585"/>
+  <ellipse class="muscle" cx="868" cy="422" rx="22" ry="18"/>
+
+  <text x="56" y="250" class="label">骨盆前倾</text>
+  <text x="56" y="272" class="small">腰反弓、腹部突出</text>
+  <path class="accent" d="M262 430 L236 428" marker-end="url(#arrow)"/>
+  <text x="628" y="250" class="label">骨盆中立</text>
+  <text x="628" y="272" class="small">收腹夹臀、肋骨下沉</text>
+  <path class="accent-ok" d="M880 430 L850 430" marker-end="url(#arrowOk)"/>
+  <rect x="48" y="680" width="352" height="92" rx="18" fill="#FFFDF8" stroke="#D9D2C5" stroke-width="2"/>
+  <circle cx="82" cy="726" r="16" fill="#2A9D8F"/>
+  <text x="82" y="732" text-anchor="middle" class="num">1</text>
+  <text x="112" y="716" class="cue-title">收腹夹臀</text>
+  <text x="112" y="742" class="cue-sub">骨盆向后卷，别挺肚子</text>
+  <rect x="424" y="680" width="352" height="92" rx="18" fill="#FFFDF8" stroke="#D9D2C5" stroke-width="2"/>
+  <circle cx="458" cy="726" r="16" fill="#2A9D8F"/>
+  <text x="458" y="732" text-anchor="middle" class="num">2</text>
+  <text x="488" y="716" class="cue-title">拉伸髋屈肌</text>
+  <text x="488" y="742" class="cue-sub">弓步拉伸髂腰肌</text>
+  <rect x="800" y="680" width="352" height="92" rx="18" fill="#FFFDF8" stroke="#D9D2C5" stroke-width="2"/>
+  <circle cx="834" cy="726" r="16" fill="#2A9D8F"/>
+  <text x="834" y="732" text-anchor="middle" class="num">3</text>
+  <text x="864" y="716" class="cue-title">臀桥激活</text>
+  <text x="864" y="742" class="cue-sub">强化臀大肌与核心</text>
+  <text x="48" y="805" class="footer">FitPulse 原创示意图 · 仅作动作教学参考 · 非医学建议</text>
+  <text x="1152" y="805" text-anchor="end" class="footer">EP-005 · v1.0</text>
+</svg>
